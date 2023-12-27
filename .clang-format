@@ -1,0 +1,43 @@
+Language: Cpp
+BasedOnStyle: LLVM
+ColumnLimit: 120
+TabWidth: 8
+Standard: Auto
+QualifierAlignment: Left
+ReferenceAlignment: Pointer
+SortIncludes: CaseInsensitive
+SpaceAfterCStyleCast: true
+SpaceBeforeCpp11BracedList: true
+AlignArrayOfStructures: Left
+AlignConsecutiveBitFields: AcrossEmptyLinesAndComments
+AlignConsecutiveMacros: AcrossEmptyLinesAndComments
+AllowShortEnumsOnASingleLine: false
+AllowShortBlocksOnASingleLine: Never
+AllowShortCaseLabelsOnASingleLine: false
+AllowShortFunctionsOnASingleLine: Empty
+AllowShortLambdasOnASingleLine: Inline
+AllowShortIfStatementsOnASingleLine: false
+AllowShortLoopsOnASingleLine: false
+IndentPPDirectives: BeforeHash
+IndentCaseLabels: false
+ReflowComments: false
+IndentWidth: 8
+UseTab: Always
+BreakBeforeBraces: Custom
+BraceWrapping:
+  AfterCaseLabel: true
+  AfterClass: true
+  AfterControlStatement: Always
+  AfterEnum: true
+  AfterFunction: true
+  AfterNamespace: true
+  AfterStruct: true
+  AfterUnion: true
+  AfterExternBlock: true
+  BeforeCatch: true
+  BeforeElse: true
+  BeforeLambdaBody: true
+  BeforeWhile: false
+  SplitEmptyFunction: true
+  SplitEmptyRecord: true
+  SplitEmptyNamespace: true
