@@ -1,13 +1,16 @@
 #ifndef H_DECL_ARRAY
 #define H_DECL_ARRAY
 
+#include <stdarg.h>
 #include <stdbool.h>
 #include <stddef.h>
 typedef int T;
 
 typedef enum
 {
-	CSTL_SUCCESS
+	CSTL_SUCCESS,
+	CSTL_ARRAY_IS_NULL,
+	CSTL_SIZE_MISMATCH
 } cstl_array_status_t;
 
 typedef enum
@@ -41,14 +44,14 @@ typedef struct __OPERATOR_OF__(T)
 
 typedef struct __ARRAY_OPERATOR_OF__(T)
 {
-	ARRAY_OF(T) * (*const construct)(void);
+	ARRAY_OF(T) * (*const construct)(size_t size, ...);
 	cstl_array_status_t *(*const destruct)(ARRAY_OF(T) * *array);
 	cstl_array_status_t *(*const assign)(ARRAY_OF(T) * array, ARRAY_OF(T) * other);
-	T *(*const at)(size_t index);
-	T *(*const index)(size_t index);
-	T *(*const front)(size_t index);
-	T *(*const back)(size_t index);
-	T *(*const data)(size_t index);
+	T *(*const at)(ARRAY_OF(T) * array, size_t index);
+	T *(*const index)(ARRAY_OF(T) * array, size_t index);
+	T *(*const front)(ARRAY_OF(T) * array, size_t index);
+	T *(*const back)(ARRAY_OF(T) * array, size_t index);
+	T *(*const data)(ARRAY_OF(T) * array, size_t index);
 	bool (*const empty)(ARRAY_OF(T) * array);
 	size_t (*const size)(ARRAY_OF(T) * array);
 	size_t (*const max_size)(ARRAY_OF(T) * array);
