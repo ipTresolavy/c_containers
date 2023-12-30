@@ -4,7 +4,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-#define __IMPL__(T, op) cstl_##T##_array_##op
+#define __IMPL__(T, op) CONCAT(PREFIX(T), op)
 
 #define __IMPL_ARRAY_OF__(T)                                                                                           \
 	struct __ARRAY_OF__(T)                                                                                         \
