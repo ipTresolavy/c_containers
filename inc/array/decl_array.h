@@ -1,22 +1,20 @@
 #ifndef H_DECL_ARRAY
 #define H_DECL_ARRAY
 
+#include "operator.h"
 #include "types.h"
 
 #include <stdarg.h>
 #include <stdbool.h>
 #include <stddef.h>
 
-#define __CONCAT__(x, y)	 x##y
-#define CONCAT(x, y)		 __CONCAT__(x, y)
-
-#define PREFIX(T)		 cstl_##T##_array
-#define __ARRAY_OF__(T)		 PREFIX(T)
+#define __PREFIX__(T)		 cstl_##T##_array
+#define __ARRAY_OF__(T)		 __PREFIX__(T)
 #define __ARRAY_OPERATOR_OF__(T) CONCAT(__ARRAY_OF__(T), _operator)
 #define ARRAY_OF(T)		 CONCAT(__ARRAY_OF__(T), _t)
 #define ARRAY_OPERATOR_OF(T)	 CONCAT(__ARRAY_OPERATOR_OF__(T), _t)
 
-#define NEW_ARRAY_OPERATOR_OF(T) cstl_new_##T##_array_operator
+#define GET_ARRAY_OPERATOR_OF(T) cstl_get_##T##_array_operator
 
 #define __DECL_ARRAY_OF__(T)                                                                                           \
 	struct __ARRAY_OF__(T);                                                                                        \
@@ -40,11 +38,11 @@
 		cstl_array_status_t (*const swap)(ARRAY_OF(T) * array, ARRAY_OF(T) * other);                           \
 	} ARRAY_OPERATOR_OF(T);
 
-#define __DECL_NEW_ARRAY_OPERATOR_OF__(T) ARRAY_OPERATOR_OF(T) * NEW_ARRAY_OPERATOR_OF(T)(void)
+#define __DECL_GET_ARRAY_OPERATOR_OF__(T) ARRAY_OPERATOR_OF(T) * GET_ARRAY_OPERATOR_OF(T)(void)
 
 #define DECL_ARRAY_OF(T)                                                                                               \
 	__DECL_ARRAY_OF__(T)                                                                                           \
 	__DECL_ARRAY_OPERATOR_OF__(T)                                                                                  \
-	__DECL_NEW_ARRAY_OPERATOR_OF__(T)
+	__DECL_GET_ARRAY_OPERATOR_OF__(T)
 
 #endif // !H_DECL_ARRAY

@@ -4,7 +4,9 @@
 #include <stdlib.h>
 #include <string.h>
 
-#define __IMPL__(T, op) CONCAT(PREFIX(T), op)
+#define __IMPL__(T, op)			    CONCAT(__PREFIX__(T), op)
+
+#define __IMPL_OPERATOR_OF__(T, T_operator) OPERATOR_OF(T) * (*const __GET_OPERATOR_OF__(T))(void) = T_operator;
 
 #define __IMPL_ARRAY_OF__(T)                                                                                           \
 	struct __ARRAY_OF__(T)                                                                                         \
@@ -85,6 +87,17 @@
 		}                                                                                                      \
 		ARRAY_OF(T) *_array = *array;                                                                          \
                                                                                                                        \
+		const size_t size = _array->size;                                                                      \
+		T *const data = _array->data;                                                                          \
+		OPERATOR_OF(T) *operator= __GET_OPERATOR_OF__(T)();                                                    \
+		for (T *data_i = data; data_i < data + size; ++data_i)                                                 \
+		{                                                                                                      \
+			cstl_array_status_t status = operator->destruct(&data_i);                                      \
+			if (CSTL_SUCCESS != status)                                                                    \
+			{                                                                                              \
+				return status;                                                                         \
+			}                                                                                              \
+		}                                                                                                      \
 		free(_array->data);                                                                                    \
 		free(_array);                                                                                          \
 		_array = NULL;                                                                                         \
@@ -194,7 +207,7 @@
 			return CSTL_ARRAY_IS_NULL;                                                                     \
 		}                                                                                                      \
 		const size_t size = array->size;                                                                       \
-		T *data = array->data;                                                                                 \
+		T *const data = array->data;                                                                           \
 		for (T *data_i = data; data_i < data + size; ++data_i)                                                 \
 		{                                                                                                      \
 			*data_i = value;                                                                               \
@@ -222,8 +235,8 @@
 		return CSTL_SUCCESS;                                                                                   \
 	}
 
-#define __IMPL_NEW_ARRAY_OPERATOR_OF(T)                                                                                \
-	ARRAY_OPERATOR_OF(T) * NEW_ARRAY_OPERATOR_OF(T)(void)                                                          \
+#define __IMPL_GET_ARRAY_OPERATOR_OF(T)                                                                                \
+	ARRAY_OPERATOR_OF(T) * GET_ARRAY_OPERATOR_OF(T)(void)                                                          \
 	{                                                                                                              \
 		static ARRAY_OPERATOR_OF(T) operator= {.construct = __IMPL__(T, construct),                            \
 						       .destruct = __IMPL__(T, destruct),                              \
@@ -258,9 +271,10 @@
 	__IMPL_FILL__(T)                                                                                               \
 	__IMPL_SWAP__(T)
 
-#define IMPL_ARRAY_OF(T)                                                                                               \
+#define IMPL_ARRAY_OF(T, T_operator)                                                                                   \
+	__IMPL_OPERATOR_OF__(T, T_operator)                                                                            \
 	__IMPL_ARRAY_OF__(T)                                                                                           \
 	__IMPL_OPS__(T)                                                                                                \
-	__IMPL_NEW_ARRAY_OPERATOR_OF(T)
+	__IMPL_GET_ARRAY_OPERATOR_OF(T)
 
 #endif // !H_IMPL_ARRAY
