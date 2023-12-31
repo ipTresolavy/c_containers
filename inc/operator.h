@@ -7,10 +7,14 @@
 #define __OPERATOR_OF__(T) cstl_##T##_operator
 #define OPERATOR_OF(T)	   CONCAT(__OPERATOR_OF__(T), _t)
 
-#define DECL_T_OPERATOR_OF(T)                                                                                          \
+#define DECL_OPERATOR_OF(T)                                                                                            \
 	typedef struct __OPERATOR_OF__(T)                                                                              \
 	{                                                                                                              \
+		T *(*const construct)(void);                                                                           \
 		cstl_array_status_t (*const destruct)(T **);                                                           \
+		cstl_array_status_t (*const copy)(T *, T *);                                                           \
+		cstl_array_status_t (*const init)(T *);                                                                \
+		cstl_array_status_t (*const deinit)(T *);                                                              \
 	} OPERATOR_OF(T)
 
 #define __GET_OPERATOR_OF__(T) cstl_get_##T##_operator

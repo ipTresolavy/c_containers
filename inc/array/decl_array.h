@@ -2,9 +2,7 @@
 #define H_DECL_ARRAY
 
 #include "operator.h"
-#include "types.h"
 
-#include <stdarg.h>
 #include <stdbool.h>
 #include <stddef.h>
 
@@ -23,7 +21,7 @@
 #define __DECL_ARRAY_OPERATOR_OF__(T)                                                                                  \
 	typedef struct __ARRAY_OPERATOR_OF__(T)                                                                        \
 	{                                                                                                              \
-		ARRAY_OF(T) * (*const construct)(size_t size, ...);                                                    \
+		ARRAY_OF(T) * (*const construct)(size_t size, T *array_data, size_t array_data_size);                  \
 		cstl_array_status_t (*const destruct)(ARRAY_OF(T) * *array);                                           \
 		cstl_array_status_t (*const assign)(ARRAY_OF(T) * array, ARRAY_OF(T) * other);                         \
 		T *(*const at)(ARRAY_OF(T) * array, size_t index);                                                     \

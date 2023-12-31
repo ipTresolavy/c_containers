@@ -1,2 +1,2 @@
 CompileFlags:
-  Add: -I../../inc/
+  Add: [-I../../inc/, -lcheck]

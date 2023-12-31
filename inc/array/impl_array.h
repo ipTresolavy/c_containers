@@ -1,12 +1,14 @@
 #ifndef H_IMPL_ARRAY
 #define H_IMPL_ARRAY
 #include "array/decl_array.h"
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
-#define __IMPL__(T, op)			    CONCAT(__PREFIX__(T), op)
+#define __IMPL__(T, op) CONCAT(CONCAT(__PREFIX__(T), _), op)
 
-#define __IMPL_OPERATOR_OF__(T, T_operator) OPERATOR_OF(T) * (*const __GET_OPERATOR_OF__(T))(void) = T_operator;
+#define __IMPL_OPERATOR_OF__(T, T_operator_getter)                                                                     \
+	OPERATOR_OF(T) * (*const __GET_OPERATOR_OF__(T))(void) = T_operator_getter;
 
 #define __IMPL_ARRAY_OF__(T)                                                                                           \
 	struct __ARRAY_OF__(T)                                                                                         \
@@ -30,7 +32,18 @@
 			free(array);                                                                                   \
 			return NULL;                                                                                   \
 		}                                                                                                      \
-                                                                                                                       \
+		T *const data = array->data;                                                                           \
+		OPERATOR_OF(T) *operator= __GET_OPERATOR_OF__(T)();                                                    \
+		for (size_t i = 0; i < size; ++i)                                                                      \
+		{                                                                                                      \
+			cstl_array_status_t status = operator->init(data + i);                                         \
+			if (CSTL_SUCCESS != status)                                                                    \
+			{                                                                                              \
+				free(array->data);                                                                     \
+				free(array);                                                                           \
+				return NULL;                                                                           \
+			}                                                                                              \
+		}                                                                                                      \
 		array->size = size;                                                                                    \
                                                                                                                        \
 		return array;                                                                                          \
@@ -45,7 +58,7 @@
 			return NULL;                                                                                   \
 		}                                                                                                      \
                                                                                                                        \
-		array->data = calloc(size, sizeof(T));                                                                 \
+		array->data = malloc(size * sizeof(T));                                                                \
 		if (NULL == array->data)                                                                               \
 		{                                                                                                      \
 			free(array);                                                                                   \
@@ -53,25 +66,41 @@
 		}                                                                                                      \
 		if (array_data_size > size)                                                                            \
 		{                                                                                                      \
-			free(array);                                                                                   \
 			free(array->data);                                                                             \
+			free(array);                                                                                   \
 			return NULL;                                                                                   \
 		}                                                                                                      \
-		memcpy(array->data, array_data, array_data_size * sizeof(T));                                          \
+		T *const data = array->data;                                                                           \
+		OPERATOR_OF(T) *operator= __GET_OPERATOR_OF__(T)();                                                    \
+		for (size_t i = 0; i < array_data_size; ++i)                                                           \
+		{                                                                                                      \
+			cstl_array_status_t status = operator->copy(data + i, array_data + i);                         \
+			if (CSTL_SUCCESS != status)                                                                    \
+			{                                                                                              \
+				free(array->data);                                                                     \
+				free(array);                                                                           \
+				return NULL;                                                                           \
+			}                                                                                              \
+		}                                                                                                      \
+		for (size_t i = array_data_size; i < size; ++i)                                                        \
+		{                                                                                                      \
+			cstl_array_status_t status = operator->init(data + i);                                         \
+			if (CSTL_SUCCESS != status)                                                                    \
+			{                                                                                              \
+				free(array->data);                                                                     \
+				free(array);                                                                           \
+				return NULL;                                                                           \
+			}                                                                                              \
+		}                                                                                                      \
 		array->size = size;                                                                                    \
-                                                                                                                       \
 		return array;                                                                                          \
 	}
 
 #define __IMPL_CONSTRUCT__(T)                                                                                          \
-	static ARRAY_OF(T) * __IMPL__(T, construct)(size_t size, ...)                                                  \
+	static ARRAY_OF(T) * __IMPL__(T, construct)(size_t size, T * array_data, size_t array_data_size)               \
 	{                                                                                                              \
-		va_list args;                                                                                          \
-		va_start(args, size);                                                                                  \
-		T *array_data = va_arg(args, T *);                                                                     \
 		if (NULL != array_data)                                                                                \
 		{                                                                                                      \
-			size_t array_data_size = va_arg(args, size_t);                                                 \
 			return __IMPL__(T, construct_initialized)(size, array_data, array_data_size);                  \
 		}                                                                                                      \
                                                                                                                        \
@@ -90,9 +119,9 @@
 		const size_t size = _array->size;                                                                      \
 		T *const data = _array->data;                                                                          \
 		OPERATOR_OF(T) *operator= __GET_OPERATOR_OF__(T)();                                                    \
-		for (T *data_i = data; data_i < data + size; ++data_i)                                                 \
+		for (size_t i = 0; i < size; ++i)                                                                      \
 		{                                                                                                      \
-			cstl_array_status_t status = operator->destruct(&data_i);                                      \
+			cstl_array_status_t status = operator->deinit(data + i);                                       \
 			if (CSTL_SUCCESS != status)                                                                    \
 			{                                                                                              \
 				return status;                                                                         \
@@ -100,7 +129,7 @@
 		}                                                                                                      \
 		free(_array->data);                                                                                    \
 		free(_array);                                                                                          \
-		_array = NULL;                                                                                         \
+		*array = NULL;                                                                                         \
                                                                                                                        \
 		return CSTL_SUCCESS;                                                                                   \
 	}
@@ -188,7 +217,7 @@
 	{                                                                                                              \
 		if (NULL == array)                                                                                     \
 		{                                                                                                      \
-			return NULL;                                                                                   \
+			return 0;                                                                                      \
 		}                                                                                                      \
 		return array->size;                                                                                    \
 	}
@@ -271,8 +300,8 @@
 	__IMPL_FILL__(T)                                                                                               \
 	__IMPL_SWAP__(T)
 
-#define IMPL_ARRAY_OF(T, T_operator)                                                                                   \
-	__IMPL_OPERATOR_OF__(T, T_operator)                                                                            \
+#define IMPL_ARRAY_OF(T, T_operator_getter)                                                                            \
+	__IMPL_OPERATOR_OF__(T, T_operator_getter)                                                                     \
 	__IMPL_ARRAY_OF__(T)                                                                                           \
 	__IMPL_OPS__(T)                                                                                                \
 	__IMPL_GET_ARRAY_OPERATOR_OF(T)
