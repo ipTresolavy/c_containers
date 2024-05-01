@@ -76,7 +76,7 @@ cstl_array_status_t set_test_struct_name(test_struct_t *test_struct, char *name,
 	}
 	if (size > test_struct->name_buffer_size)
 	{
-		char *old_name = test_struct->name;
+		const char *const old_name = test_struct->name;
 		test_struct->name = realloc(test_struct->name, size);
 		if (old_name == test_struct->name)
 		{

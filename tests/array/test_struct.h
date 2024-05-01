@@ -14,8 +14,8 @@ struct test_struct;
 typedef struct test_struct test_struct_t;
 
 test_struct_t *new_test_struct(void);
-char *get_test_struct_name(test_struct_t *test_struct);
 cstl_array_status_t init_test_struct(test_struct_t *test_struct);
+char *get_test_struct_name(test_struct_t *test_struct);
 cstl_array_status_t set_test_struct_name(test_struct_t *test_struct, char *name, size_t size);
 uint32_t get_test_struct_social_security(test_struct_t *test_struct);
 cstl_array_status_t copy_test_struct(test_struct_t *test_struct, test_struct_t *other);

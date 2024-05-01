@@ -141,13 +141,23 @@
 		{                                                                                                      \
 			return CSTL_ARRAY_IS_NULL;                                                                     \
 		}                                                                                                      \
-		size_t size = array->size;                                                                             \
+		const size_t size = array->size;                                                                       \
 		if (size != other->size)                                                                               \
 		{                                                                                                      \
 			return CSTL_SIZE_MISMATCH;                                                                     \
 		}                                                                                                      \
                                                                                                                        \
-		memcpy(array->data, other->data, size * sizeof(T));                                                    \
+		T *const data = array->data;                                                                           \
+		T *const other_data = other->data;                                                                     \
+		OPERATOR_OF(T) *operator= __GET_OPERATOR_OF__(T)();                                                    \
+		for (size_t i = 0; i < size; ++i)                                                                      \
+		{                                                                                                      \
+			cstl_array_status_t status = operator->copy(data + i, other_data + i);                         \
+			if (CSTL_SUCCESS != status)                                                                    \
+			{                                                                                              \
+				return status;                                                                         \
+			}                                                                                              \
+		}                                                                                                      \
                                                                                                                        \
 		return CSTL_SUCCESS;                                                                                   \
 	}
@@ -155,11 +165,11 @@
 #define __IMPL_AT__(T)                                                                                                 \
 	static T *__IMPL__(T, at)(ARRAY_OF(T) * array, size_t index)                                                   \
 	{                                                                                                              \
-		if (index >= array->size || NULL == array)                                                             \
+		if (NULL == array || index >= array->size)                                                             \
 		{                                                                                                      \
 			return NULL;                                                                                   \
 		}                                                                                                      \
-		return &(array->data[index]);                                                                          \
+		return array->data + index;                                                                            \
 	}
 
 #define __IMPL_INDEX__(T)                                                                                              \
@@ -169,7 +179,7 @@
 		{                                                                                                      \
 			return NULL;                                                                                   \
 		}                                                                                                      \
-		return &(array->data[index]);                                                                          \
+		return array->data + index;                                                                            \
 	}
 
 #define __IMPL_FRONT__(T)                                                                                              \
@@ -179,7 +189,7 @@
 		{                                                                                                      \
 			return NULL;                                                                                   \
 		}                                                                                                      \
-		return &(array->data[0]);                                                                              \
+		return array->data;                                                                                    \
 	}
 
 #define __IMPL_BACK__(T)                                                                                               \
@@ -189,7 +199,7 @@
 		{                                                                                                      \
 			return NULL;                                                                                   \
 		}                                                                                                      \
-		return &(array->data[array->size - 1]);                                                                \
+		return array->data + array->size - 1;                                                                  \
 	}
 
 #define __IMPL_DATA__(T)                                                                                               \
