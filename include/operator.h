@@ -3,8 +3,8 @@
 // TODO: create general return types for operators and specific ones for arrays
 // check how CMake can generate source files with macros expanded (one for each .c)
 // maybe generalize the __PREFIX__ macro
-// doc: explain what the project is (a bunch of macros) and usage
-// begin with end result and explain what user has to do to use it
+// doc: explain what the project is (a bunch of macros) and usage. Begin with end result and explain what user has to
+// do to use it. Also say it is type-safe
 // check if it would be better to destruct the array elements on the reverse order, without using deinit
 
 #define __CONCAT__(x, y)   x##y
