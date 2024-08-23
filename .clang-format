@@ -22,7 +22,7 @@ IndentPPDirectives: BeforeHash
 IndentCaseLabels: false
 ReflowComments: false
 IndentWidth: 8
-UseTab: Always
+UseTab: Never
 BreakBeforeBraces: Custom
 BraceWrapping:
   AfterCaseLabel: true

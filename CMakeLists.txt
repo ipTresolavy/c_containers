@@ -3,7 +3,8 @@ cmake_minimum_required(VERSION 3.10)
 project(ArrayProject C)
 
 # Add include directories
-include_directories(inc)
+include_directories(include)
+include_directories(tests/include)
 
 # Source files
 set(SOURCES
