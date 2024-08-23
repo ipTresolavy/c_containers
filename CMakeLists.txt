@@ -1,35 +1,35 @@
 cmake_minimum_required(VERSION 3.10)
 
-project(ArrayProject C)
+# Define the project
+project(CContainers C)
+
+# Set the C standard globally (applies to all targets)
+set(CMAKE_C_STANDARD 11)
+set(CMAKE_C_STANDARD_REQUIRED ON)
 
 # Add include directories
-include_directories(include)
-include_directories(tests/include)
-
-# Source files
-set(SOURCES
-    tests/array/array_test.c
-    tests/array/test_struct.c
+include_directories(
+    ${PROJECT_SOURCE_DIR}/include
+    ${PROJECT_SOURCE_DIR}/tests/include
 )
 
-# Main executable
-add_executable(array_test ${SOURCES})
+# Source files (use GLOB to simplify adding multiple files)
+#file(GLOB SOURCES
+#    ${PROJECT_SOURCE_DIR}/src/*.c
+#)
 
-# Set the C standard to C11
-set_target_properties(array_test PROPERTIES
-    C_STANDARD 11
-    C_STANDARD_REQUIRED ON
-    COMPILE_OPTIONS -g 
-)
-# Link with Check framework
-target_link_libraries(array_test check)
+# Main executable (for the main project, not the tests)
+#add_executable(main_executable ${SOURCES})
 
-# Set compiler flags
-set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall -Wextra")
+# Set compiler options for the main target
+#target_compile_options(main_executable PRIVATE -Wall -Wextra)
 
-# Enable testing
-enable_testing()
+# Option to enable/disable building tests
+option(BUILD_TESTING "Build tests using the Check framework" OFF)
 
-# Add the test target
-add_test(array_test array_test)
+# Conditional inclusion of the test CMakeLists.txt
+if(BUILD_TESTING)
+    enable_testing()
+    add_subdirectory(tests)
+endif()
 
