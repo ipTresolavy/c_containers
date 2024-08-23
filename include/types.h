@@ -3,19 +3,19 @@
 
 typedef enum
 {
-        CSTL_ARRAY_SUCCESS,
-        CSTL_ARRAY_FAILURE,
-        CSTL_ARRAY_IS_NULL,
-        CSTL_ARRAY_COULD_NOT_DESRUCT_ELEMENT,
-        CSTL_ARRAY_SIZE_MISMATCH
-} cstl_array_status_t;
+        CONT_ARRAY_SUCCESS,
+        CONT_ARRAY_FAILURE,
+        CONT_ARRAY_IS_NULL,
+        CONT_ARRAY_COULD_NOT_DESRUCT_ELEMENT,
+        CONT_ARRAY_SIZE_MISMATCH
+} cont_array_status_t;
 
 typedef enum
 {
-        CSTL_EQUAL,
-        CSTL_DIFFERENT,
-        CSTL_LESS,
-        CSTL_GREATER
-} cstl_comparison_t;
+        CONT_EQUAL,
+        CONT_DIFFERENT,
+        CONT_LESS,
+        CONT_GREATER
+} cont_comparison_t;
 
 #endif // !H_TYPES

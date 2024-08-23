@@ -36,8 +36,8 @@
                 OPERATOR_OF(T) *operator= __GET_OPERATOR_OF__(T)();                                                    \
                 for (size_t i = 0; i < size; ++i)                                                                      \
                 {                                                                                                      \
-                        cstl_array_status_t status = operator->init(data + i);                                         \
-                        if (CSTL_ARRAY_SUCCESS != status)                                                              \
+                        cont_array_status_t status = operator->init(data + i);                                         \
+                        if (CONT_ARRAY_SUCCESS != status)                                                              \
                         {                                                                                              \
                                 free(array->data);                                                                     \
                                 free(array);                                                                           \
@@ -72,8 +72,8 @@
                 OPERATOR_OF(T) *operator= __GET_OPERATOR_OF__(T)();                                                    \
                 for (size_t i = 0; i < array_data_size; ++i)                                                           \
                 {                                                                                                      \
-                        cstl_array_status_t status = operator->copy(data + i, array_data + i);                         \
-                        if (CSTL_ARRAY_SUCCESS != status)                                                              \
+                        cont_array_status_t status = operator->copy(data + i, array_data + i);                         \
+                        if (CONT_ARRAY_SUCCESS != status)                                                              \
                         {                                                                                              \
                                 free(array->data);                                                                     \
                                 free(array);                                                                           \
@@ -82,8 +82,8 @@
                 }                                                                                                      \
                 for (size_t i = array_data_size; i < size; ++i)                                                        \
                 {                                                                                                      \
-                        cstl_array_status_t status = operator->init(data + i);                                         \
-                        if (CSTL_ARRAY_SUCCESS != status)                                                              \
+                        cont_array_status_t status = operator->init(data + i);                                         \
+                        if (CONT_ARRAY_SUCCESS != status)                                                              \
                         {                                                                                              \
                                 free(array->data);                                                                     \
                                 free(array);                                                                           \
@@ -110,11 +110,11 @@
         }
 
 #define __IMPL_DESTRUCT__(T)                                                                                           \
-        static cstl_array_status_t __IMPL__(T, destruct)(ARRAY_OF(T) * *array)                                         \
+        static cont_array_status_t __IMPL__(T, destruct)(ARRAY_OF(T) * *array)                                         \
         {                                                                                                              \
                 if (NULL == array || NULL == *array)                                                                   \
                 {                                                                                                      \
-                        return CSTL_ARRAY_IS_NULL;                                                                     \
+                        return CONT_ARRAY_IS_NULL;                                                                     \
                 }                                                                                                      \
                 ARRAY_OF(T) *_array = *array;                                                                          \
                                                                                                                        \
@@ -123,8 +123,8 @@
                 OPERATOR_OF(T) *operator= __GET_OPERATOR_OF__(T)();                                                    \
                 for (size_t i = 0; i < size; ++i)                                                                      \
                 {                                                                                                      \
-                        cstl_array_status_t status = operator->deinit(data + i);                                       \
-                        if (CSTL_ARRAY_SUCCESS != status)                                                              \
+                        cont_array_status_t status = operator->deinit(data + i);                                       \
+                        if (CONT_ARRAY_SUCCESS != status)                                                              \
                         {                                                                                              \
                                 return status;                                                                         \
                         }                                                                                              \
@@ -133,20 +133,20 @@
                 free(_array);                                                                                          \
                 *array = NULL;                                                                                         \
                                                                                                                        \
-                return CSTL_ARRAY_SUCCESS;                                                                             \
+                return CONT_ARRAY_SUCCESS;                                                                             \
         }
 
 #define __IMPL_ASSIGN__(T)                                                                                             \
-        static cstl_array_status_t __IMPL__(T, assign)(ARRAY_OF(T) * array, ARRAY_OF(T) * other)                       \
+        static cont_array_status_t __IMPL__(T, assign)(ARRAY_OF(T) * array, ARRAY_OF(T) * other)                       \
         {                                                                                                              \
                 if (NULL == array || NULL == other)                                                                    \
                 {                                                                                                      \
-                        return CSTL_ARRAY_IS_NULL;                                                                     \
+                        return CONT_ARRAY_IS_NULL;                                                                     \
                 }                                                                                                      \
                 const size_t size = array->size;                                                                       \
                 if (size != other->size)                                                                               \
                 {                                                                                                      \
-                        return CSTL_ARRAY_SIZE_MISMATCH;                                                               \
+                        return CONT_ARRAY_SIZE_MISMATCH;                                                               \
                 }                                                                                                      \
                                                                                                                        \
                 T *const data = array->data;                                                                           \
@@ -154,14 +154,14 @@
                 OPERATOR_OF(T) *operator= __GET_OPERATOR_OF__(T)();                                                    \
                 for (size_t i = 0; i < size; ++i)                                                                      \
                 {                                                                                                      \
-                        cstl_array_status_t status = operator->copy(data + i, other_data + i);                         \
-                        if (CSTL_ARRAY_SUCCESS != status)                                                              \
+                        cont_array_status_t status = operator->copy(data + i, other_data + i);                         \
+                        if (CONT_ARRAY_SUCCESS != status)                                                              \
                         {                                                                                              \
                                 return status;                                                                         \
                         }                                                                                              \
                 }                                                                                                      \
                                                                                                                        \
-                return CSTL_ARRAY_SUCCESS;                                                                             \
+                return CONT_ARRAY_SUCCESS;                                                                             \
         }
 
 #define __IMPL_AT__(T)                                                                                                 \
@@ -241,11 +241,11 @@
         }
 
 #define __IMPL_FILL__(T)                                                                                               \
-        static cstl_array_status_t __IMPL__(T, fill)(ARRAY_OF(T) * array, T value)                                     \
+        static cont_array_status_t __IMPL__(T, fill)(ARRAY_OF(T) * array, T value)                                     \
         {                                                                                                              \
                 if (NULL == array)                                                                                     \
                 {                                                                                                      \
-                        return CSTL_ARRAY_IS_NULL;                                                                     \
+                        return CONT_ARRAY_IS_NULL;                                                                     \
                 }                                                                                                      \
                 const size_t size = array->size;                                                                       \
                 T *const data = array->data;                                                                           \
@@ -253,27 +253,27 @@
                 {                                                                                                      \
                         *data_i = value;                                                                               \
                 }                                                                                                      \
-                return CSTL_ARRAY_SUCCESS;                                                                             \
+                return CONT_ARRAY_SUCCESS;                                                                             \
         }
 
 #define __IMPL_SWAP__(T)                                                                                               \
-        static cstl_array_status_t __IMPL__(T, swap)(ARRAY_OF(T) * array, ARRAY_OF(T) * other)                         \
+        static cont_array_status_t __IMPL__(T, swap)(ARRAY_OF(T) * array, ARRAY_OF(T) * other)                         \
         {                                                                                                              \
                 if (NULL == array || NULL == other)                                                                    \
                 {                                                                                                      \
-                        return CSTL_ARRAY_IS_NULL;                                                                     \
+                        return CONT_ARRAY_IS_NULL;                                                                     \
                 }                                                                                                      \
                                                                                                                        \
                 if (array->size != other->size)                                                                        \
                 {                                                                                                      \
-                        return CSTL_ARRAY_SIZE_MISMATCH;                                                               \
+                        return CONT_ARRAY_SIZE_MISMATCH;                                                               \
                 }                                                                                                      \
                                                                                                                        \
                 T *temp = array->data;                                                                                 \
                 array->data = other->data;                                                                             \
                 other->data = temp;                                                                                    \
                                                                                                                        \
-                return CSTL_ARRAY_SUCCESS;                                                                             \
+                return CONT_ARRAY_SUCCESS;                                                                             \
         }
 
 #define __IMPL_GET_ARRAY_OPERATOR_OF(T)                                                                                \
