@@ -9,8 +9,8 @@ set(CMAKE_C_STANDARD_REQUIRED ON)
 
 # Add include directories
 include_directories(
-    ${PROJECT_SOURCE_DIR}/include
-    ${PROJECT_SOURCE_DIR}/tests/include
+  ${PROJECT_SOURCE_DIR}/include
+  ${PROJECT_SOURCE_DIR}/tests/include
 )
 
 # Source files (use GLOB to simplify adding multiple files)
@@ -29,7 +29,7 @@ option(BUILD_TESTING "Build tests using the Check framework" OFF)
 
 # Conditional inclusion of the test CMakeLists.txt
 if(BUILD_TESTING)
-    enable_testing()
-    add_subdirectory(tests)
+  enable_testing()
+  add_subdirectory(tests)
 endif()
 
