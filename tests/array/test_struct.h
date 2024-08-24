@@ -4,7 +4,6 @@
 #include "array/decl_array.h"
 #include "operator.h"
 #include "types.h"
-#include <math.h>
 #include <stddef.h>
 #include <stdint.h>
 
@@ -23,8 +22,8 @@ cont_array_status_t set_test_struct_social_security(test_struct_t *test_struct, 
 cont_array_status_t deinit_test_struct(test_struct_t *test_struct);
 cont_array_status_t destruct_test_struct(test_struct_t **test_struct);
 
-DECL_OPERATOR_OF(test_struct_t);
+CONT_DECL_OPERATOR_OF(test_struct_t);
 
-DECL_ARRAY_OF(test_struct_t);
+CONT_DECL_ARRAY_OF(test_struct_t);
 
 #endif // !H_TEST_STRUCT

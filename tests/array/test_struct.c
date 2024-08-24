@@ -130,13 +130,13 @@ cont_array_status_t destruct_test_struct(test_struct_t **test_struct)
         return CONT_ARRAY_SUCCESS;
 }
 
-static OPERATOR_OF(test_struct_t) * get_operator_of_test_struct(void)
+static CONT_OPERATOR_OF(test_struct_t) * get_operator_of_test_struct(void)
 {
-        static OPERATOR_OF(test_struct_t) operator= {.construct = new_test_struct,
-                                                     .destruct = destruct_test_struct,
-                                                     .copy = copy_test_struct,
-                                                     .init = init_test_struct,
-                                                     .deinit = deinit_test_struct};
+        static CONT_OPERATOR_OF(test_struct_t) operator= {.construct = new_test_struct,
+                                                          .destruct = destruct_test_struct,
+                                                          .copy = copy_test_struct,
+                                                          .init = init_test_struct,
+                                                          .deinit = deinit_test_struct};
         return &operator;
 }
 

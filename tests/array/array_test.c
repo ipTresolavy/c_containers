@@ -6,10 +6,10 @@
 
 START_TEST(test_construct_destruct)
 {
-        ARRAY_OPERATOR_OF(test_struct_t) *operator= GET_ARRAY_OPERATOR_OF(test_struct_t)();
+        CONT_ARRAY_OPERATOR_OF(test_struct_t) *operator= CONT_GET_ARRAY_OPERATOR_OF(test_struct_t)();
         ck_assert_ptr_nonnull(operator);
 
-        ARRAY_OF(test_struct_t) *array = operator->construct(3, NULL, 0);
+        CONT_ARRAY_OF(test_struct_t) *array = operator->construct(3, NULL, 0);
         ck_assert_ptr_nonnull(array);
 
         operator->destruct(&array);
@@ -19,7 +19,7 @@ END_TEST
 
 START_TEST(test_assign)
 {
-        ARRAY_OPERATOR_OF(test_struct_t) *operator= GET_ARRAY_OPERATOR_OF(test_struct_t)();
+        CONT_ARRAY_OPERATOR_OF(test_struct_t) *operator= CONT_GET_ARRAY_OPERATOR_OF(test_struct_t)();
         ck_assert_ptr_nonnull(operator);
 
         test_struct_t *test1 = new_test_struct();
@@ -29,9 +29,9 @@ START_TEST(test_assign)
         set_test_struct_name(test2, "test2", 6);
         set_test_struct_social_security(test2, 999);
 
-        ARRAY_OF(test_struct_t) *array1 = operator->construct(3, test1, 1);
+        CONT_ARRAY_OF(test_struct_t) *array1 = operator->construct(3, test1, 1);
         ck_assert_ptr_nonnull(array1);
-        ARRAY_OF(test_struct_t) *array2 = operator->construct(3, test2, 1);
+        CONT_ARRAY_OF(test_struct_t) *array2 = operator->construct(3, test2, 1);
         ck_assert_ptr_nonnull(array2);
         operator->assign(array1, array2);
 
@@ -52,13 +52,13 @@ END_TEST
 
 START_TEST(test_at)
 {
-        ARRAY_OPERATOR_OF(test_struct_t) *operator= GET_ARRAY_OPERATOR_OF(test_struct_t)();
+        CONT_ARRAY_OPERATOR_OF(test_struct_t) *operator= CONT_GET_ARRAY_OPERATOR_OF(test_struct_t)();
         ck_assert_ptr_nonnull(operator);
 
         test_struct_t *test2 = new_test_struct();
         ck_assert_ptr_nonnull(test2);
 
-        ARRAY_OF(test_struct_t) *array = operator->construct(3, test2, 1);
+        CONT_ARRAY_OF(test_struct_t) *array = operator->construct(3, test2, 1);
         ck_assert_ptr_nonnull(array);
 
         test_struct_t *test1 = operator->at(array, 0);
@@ -77,10 +77,10 @@ END_TEST
 
 START_TEST(test_empty_size)
 {
-        ARRAY_OPERATOR_OF(test_struct_t) *operator= GET_ARRAY_OPERATOR_OF(test_struct_t)();
+        CONT_ARRAY_OPERATOR_OF(test_struct_t) *operator= CONT_GET_ARRAY_OPERATOR_OF(test_struct_t)();
         ck_assert_ptr_nonnull(operator);
 
-        ARRAY_OF(test_struct_t) *array1 = operator->construct(3, NULL, 0);
+        CONT_ARRAY_OF(test_struct_t) *array1 = operator->construct(3, NULL, 0);
         ck_assert_ptr_nonnull(array1);
         ck_assert(false == operator->empty(array1));
         ck_assert_int_eq(operator->size(array1), 3);
@@ -88,7 +88,7 @@ START_TEST(test_empty_size)
         operator->destruct(&array1);
         ck_assert_ptr_null(array1);
 
-        ARRAY_OF(test_struct_t) *array2 = operator->construct(0, NULL, 0);
+        CONT_ARRAY_OF(test_struct_t) *array2 = operator->construct(0, NULL, 0);
         ck_assert_ptr_nonnull(array2);
         ck_assert(true == operator->empty(array2));
         ck_assert_int_eq(operator->size(array1), 0);
@@ -114,7 +114,7 @@ Suite *test_suite(void)
 
         for (size_t i = 0; i < sizeof(test_cases) / sizeof(test_cases[0]); ++i)
         {
-                CASE_CREATE(s, tc, test_cases[i].name, test_cases[i].function);
+                CONT_CASE_CREATE(s, tc, test_cases[i].name, test_cases[i].function);
         }
 
         return s;

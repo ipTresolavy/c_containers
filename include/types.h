@@ -10,12 +10,4 @@ typedef enum
         CONT_ARRAY_SIZE_MISMATCH
 } cont_array_status_t;
 
-typedef enum
-{
-        CONT_EQUAL,
-        CONT_DIFFERENT,
-        CONT_LESS,
-        CONT_GREATER
-} cont_comparison_t;
-
 #endif // !H_TYPES

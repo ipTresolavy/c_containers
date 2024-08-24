@@ -8,7 +8,7 @@ typedef struct test_case
         const TTest *function;
 } test_case_t;
 
-#define CASE_CREATE(s, tc, tc_name, tc_func)                                                                           \
+#define CONT_CASE_CREATE(s, tc, tc_name, tc_func)                                                                      \
         do                                                                                                             \
         {                                                                                                              \
                 (tc) = tcase_create((tc_name));                                                                        \
