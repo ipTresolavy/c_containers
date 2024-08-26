@@ -1,5 +1,6 @@
 #include "test.h"
 #include "test_struct.h"
+
 #include <check.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -15,6 +16,7 @@ START_TEST(test_construct_destruct)
         operator->destruct(&array);
         ck_assert_ptr_null(array);
 }
+
 END_TEST
 
 START_TEST(test_assign)
@@ -36,8 +38,10 @@ START_TEST(test_assign)
         operator->assign(array1, array2);
 
         ck_assert_str_eq(get_test_struct_name(operator->at(array1, 0)), get_test_struct_name(operator->at(array2, 0)));
-        ck_assert_int_eq(get_test_struct_social_security(operator->at(array1, 0)),
-                         get_test_struct_social_security(operator->at(array2, 0)));
+        ck_assert_int_eq(
+                get_test_struct_social_security(operator->at(array1, 0)),
+                get_test_struct_social_security(operator->at(array2, 0))
+        );
 
         operator->destruct(&array1);
         ck_assert_ptr_null(array1);
@@ -48,6 +52,7 @@ START_TEST(test_assign)
         destruct_test_struct(&test2);
         ck_assert_ptr_null(test2);
 }
+
 END_TEST
 
 START_TEST(test_at)
@@ -73,6 +78,7 @@ START_TEST(test_at)
         destruct_test_struct(&test2);
         ck_assert_ptr_null(test2);
 }
+
 END_TEST
 
 START_TEST(test_empty_size)
@@ -96,6 +102,7 @@ START_TEST(test_empty_size)
         operator->destruct(&array2);
         ck_assert_ptr_null(array2);
 }
+
 END_TEST
 
 Suite *test_suite(void)
@@ -106,13 +113,13 @@ Suite *test_suite(void)
         s = suite_create("Array Test Suite");
 
         test_case_t test_cases[] = {
-            {"construct",  test_construct_destruct},
-            {"at",         test_at                },
-            {"assign",     test_assign            },
-            {"empty_size", test_empty_size        },
+                {"construct",  test_construct_destruct},
+                {"at",         test_at                },
+                {"assign",     test_assign            },
+                {"empty_size", test_empty_size        },
         };
 
-        for (size_t i = 0; i < sizeof(test_cases) / sizeof(test_cases[0]); ++i)
+        for(size_t i = 0; i < sizeof(test_cases) / sizeof(test_cases[0]); ++i)
         {
                 CONT_CASE_CREATE(s, tc, test_cases[i].name, test_cases[i].function);
         }
@@ -122,11 +129,11 @@ Suite *test_suite(void)
 
 int main(void)
 {
-        int number_failed;
-        Suite *s;
+        int      number_failed;
+        Suite   *s;
         SRunner *sr;
 
-        s = test_suite();
+        s  = test_suite();
         sr = srunner_create(s);
 
         srunner_run_all(sr, CK_NORMAL);
