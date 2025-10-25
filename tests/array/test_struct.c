@@ -1,6 +1,7 @@
 #include "test_struct.h"
 
 #include "array/impl_array.h"
+#include "vector/impl_vector.h"
 #include "operator.h"
 #include "types.h"
 
@@ -28,6 +29,7 @@ static CONT_OPERATOR_OF(test_struct_t) *get_operator_of_test_struct(void)
 }
 
 IMPL_ARRAY_OF(test_struct_t, get_operator_of_test_struct);
+IMPL_VECTOR_OF(test_struct_t, get_operator_of_test_struct);
 
 cont_array_status_t init_test_struct(test_struct_t *test_struct)
 {

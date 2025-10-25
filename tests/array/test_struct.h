@@ -2,6 +2,7 @@
 #define H_TEST_STRUCT
 
 #include "array/decl_array.h"
+#include "vector/decl_vector.h"
 #include "operator.h"
 #include "types.h"
 
@@ -26,5 +27,6 @@ cont_array_status_t destruct_test_struct(test_struct_t **test_struct);
 CONT_DECL_OPERATOR_OF(test_struct_t);
 
 CONT_DECL_ARRAY_OF(test_struct_t);
+CONT_DECL_VECTOR_OF(test_struct_t);
 
 #endif // !H_TEST_STRUCT
